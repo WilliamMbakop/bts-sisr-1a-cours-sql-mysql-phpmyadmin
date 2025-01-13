@@ -5,9 +5,7 @@
 | Champ           | Détails                                      |
 |-----------------|----------------------------------------------|
 | **Auteur**      | William Mbakop                               |
-| **Profession**  | étudiant en alternance - BTS SIO SISR        |
-| **Version**     | 1.0.0                                        |
-| **Date**        | 9 janvier 2025                               |
+| **Date**        | 13 janvier 2025                               |
 | **Description** | SQL, MySQL, PHPMYADMIN - Cas pratique        |
 
 
@@ -20,58 +18,96 @@
 
 ## Configuration
 
+Passer en mode superutilisateur (root) pour exécuter les commandes avec les privilèges administratifs
+
 ```bash
-
-# Passer en mode superutilisateur (root) pour exécuter les commandes avec les privilèges administratifs
 sudo su
+```
 
-# Mettre à jour la liste des paquets disponibles depuis les dépôts pour garantir que vous avez les dernières informations
+Mettre à jour la liste des paquets disponibles depuis les dépôts pour garantir que vous avez les dernières informations
+
+```bash
 apt update -y
+```
 
-# Mettre à jour tous les paquets installés vers leurs dernières versions disponibles
+Mettre à jour tous les paquets installés vers leurs dernières versions disponibles
+
+```bash
 apt upgrade -y
+```
 
-# Installer le serveur web Apache2, qui permet d'héberger des sites web
+Installer le serveur web Apache2, qui permet d'héberger des sites web
+
+```bash
 apt install apache2 -y
+```
 
-# Installer le serveur de base de données MySQL, qui permet de gérer des bases de données relationnelles
+Installer le serveur de base de données MySQL, qui permet de gérer des bases de données relationnelles
+
+```bash
 apt install mysql-server -y
+```
 
-# Démarrer le service Apache2 et vérifier son statut pour s'assurer qu'il fonctionne correctement
+Démarrer le service Apache2 et vérifier son statut pour s'assurer qu'il fonctionne correctement
+
+```bash
 systemctl start apache2 && systemctl status apache2
+```
 
-# Se connecter à MySQL en tant qu'utilisateur root
+Se connecter à MySQL en tant qu'utilisateur root
+
+```bash
 mysql -u root -p
+```
 
-# Créer d’un utilisateur
+Créer d’un utilisateur
+
+```bash
 CREATE USER 'william'@'localhost' IDENTIFIED BY 'toto';
+```
 
-# Donner les droits à utilisateur
+Donner les droits à utilisateur
+
+```bash
 GRANT ALL PRIVILEGES ON sisr.* TO 'william'@'localhost';
+```
 
-# Appliquer les modifications apportées aux privilèges
+Appliquer les modifications apportées aux privilèges
+
+```bash
 FLUSH PRIVILEGES;
+```
 
-# Voir tous les utilisateurs
+Voir tous les utilisateurs
+
+```bash
 SELECT User, Host FROM mysql.user;
 ```
+
 ![Interface GLPI](images/img1.png)
 
+Créer la base de données
+
 ```bash
-# Créer la base de données
 create database sisr ;
+```
 
-# Utilisation de la base de données
+Utiliser la base de données
+
+```bash
 use sisr ;
+```
 
-# Visualisation de la base de données
+Visualiser la base de données
+
+```bash
 SHOW DATABASES;
 ```
 ![Interface GLPI](images/img2.png)
 
-```bash
-# Création de la table : 
+Création de la table : 
 
+```bash
 CREATE TABLE etudiants (
     numero INT NOT NULL PRIMARY KEY,
     nom VARCHAR(30),
@@ -84,8 +120,9 @@ CREATE TABLE etudiants (
 ```
 ![Interface GLPI](images/img3.png)
 
+Insertion en base de données :
+
 ```bash
-# Insertion en base de données : 
 INSERT INTO etudiants (numero, nom, prenom, adresse, code_postal, ville, departement) VALUES
 (1, 'Dupont', 'Pierre', '12 rue de Paris', 75001, 'Paris', 75),
 (2, 'Martin', 'Marie', '34 avenue de la République', 69001, 'Lyon', 69),
@@ -111,77 +148,92 @@ INSERT INTO etudiants (numero, nom, prenom, adresse, code_postal, ville, departe
 
 ![Interface GLPI](images/img4.png)
 
-## 10 Requêtes
+## 10 Requêtes 
+
+Cette requête sélectionne toutes les colonnes de la table étudiants :
 
 ```bash
-# Cette requête sélectionne toutes les colonnes de la table étudiants
 SELECT * FROM etudiants;
 ```
 
 ![Interface GLPI](images/img5.png)
 
+
+Cette requête sélectionne les colonnes nom et prenom de la table étudiants.
+
 ```bash
-# Cette requête sélectionne les colonnes nom et prenom de la table étudiants.
 SELECT nom, prenom FROM etudiants;
 ```
 
 ![Interface GLPI](images/img6.png)
 
+
+Cette requête sélectionne tous les étudiants qui vivent en Paris.
+
 ```bash
-# Cette requête sélectionne tous les étudiants qui vivent en Paris.
 SELECT * FROM etudiants WHERE ville = 'Paris';
 ```
 
 ![Interface GLPI](images/img7.png)
 
+
+Cette requête sélectionne tous les étudiants qui vivent dans un code postal dont le numéro est supérieur à 90000.
+
 ```bash
-# Cette requête sélectionne tous les étudiants qui vivent dans un code postal dont le numéro est supérieur à 90000.
 SELECT * FROM etudiants WHERE code_postal > 90000;
 ```
 
 ![Interface GLPI](images/img8.png)
 
 
+Cette requête sélectionne les départements distincts (sans doublon) de la table étudiants.
+
 ```bash
-# Cette requête sélectionne les départements distincts (sans doublon) de la table étudiants.
 SELECT DISTINCT departement FROM etudiants;
 ```
 
 ![Interface GLPI](images/img9.png)
 
 
+Cette requête sélectionne tous les étudiants et les trie par nom de manière descendante (DESC).
+
 ```bash
-# Cette requête sélectionne tous les étudiants et les trie par nom de manière descendante (DESC).
 SELECT * FROM etudiants ORDER BY nom DESC;
 ```
 
 ![Interface GLPI](images/img10.png)
 
 
+Cette requête sélectionne les 5 premiers étudiants dans la table étudiants.
+
 ```bash
-# Cette requête sélectionne les 5 premiers étudiants dans la table étudiants.
 SELECT * FROM etudiants LIMIT 5;
 ```
 
 ![Interface GLPI](images/img11.png)
 
+
+Cette requête sélectionne les étudiants dont le nom commence "B%".
+
 ```bash
-# Cette requête sélectionne les étudiants dont le nom commence "B%".
 SELECT * FROM etudiants WHERE nom LIKE 'B%';
 ```
 
 ![Interface GLPI](images/img12.png)
 
 
+Cette requête sélectionne les étudiants dont le département est 95 et le prénom est Clément.
+
 ```bash
-# Cette requête sélectionne les étudiants dont le département est 95 et le prénom est Clément.
 SELECT * FROM etudiants WHERE departement = 75 AND prenom = 'Clément';
 ```
 
 ![Interface GLPI](images/img13.png)
 
+
+Cette requête sélectionne tous les étudiants qui viennent soit du département 75 soit du département 93.
+
 ```bash
-# Cette requête sélectionne tous les étudiants qui viennent soit du département 75 soit du département 93.
 SELECT * FROM etudiants WHERE departement = 75 OR departement = 93;
 ```
 
@@ -192,7 +244,7 @@ SELECT * FROM etudiants WHERE departement = 75 OR departement = 93;
 
 Aller dans le navigateur http://localhost/phpmyadmin ou http://adresseIP/phpmyadmin
 
-Puis rentrer l'identifiant et le mot de passe.
+Puis rentrer l'identifiant (william) et le mot de passe (toto).
 
 On accède ainsi à l'interface de PHPMYADMIN
 
